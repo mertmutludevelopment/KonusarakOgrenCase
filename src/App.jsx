@@ -4,10 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 import store from './store'; // store'u oluşturduğunuz dosyanın yolu
-import HomeScreen from './Screens/HomeScreen';
-import DetailScreen from './Screens/DetailScreen';
-import CharacterDetailScreen from './Screens/CharacterDetailScreen';
-import FavoriteCharactersScreen from './Screens/FavoriteCharactersScreen';
+import HomeScreen from './Screens/HomeScreen/HomeScreen';
+import DetailScreen from './Screens/DetailScreen/DetailScreen';
+import CharacterDetailScreen from './Screens/CharacterDetailScreen/CharacterDetailScreen';
+import FavoriteCharactersScreen from './Screens/FavoriteCharactersScreen/FavoriteCharactersScreen';
 
 const Stack = createStackNavigator();
 

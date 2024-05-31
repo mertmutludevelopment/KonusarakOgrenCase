@@ -1,8 +1,11 @@
-// src/Screens/DetailScreen.js
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import { fetchEpisodeById, fetchCharacterById } from '../Services/api';
-import Pagination from '../Components/Pagination';
+import { View, ActivityIndicator, StyleSheet,Text } from 'react-native';
+import { fetchEpisodeById } from '../../Services/api/episodeApi';
+import { fetchCharacterById } from '../../Services/api/characterApi';
+import Pagination from '../../Components/Pagination';
+import SearchBar from './components/SearchBar';
+import CharacterList from './components/CharacterList';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 const DetailScreen = ({ route, navigation }) => {
   const { episodeId } = route.params;
@@ -82,37 +85,17 @@ const DetailScreen = ({ route, navigation }) => {
     );
   }
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.characterItem}
-      onPress={() => navigation.navigate('CharacterDetails', { characterId: item.id })}
-    >
-      <Text style={styles.characterName}>{item.name}</Text>
-      <Text style={styles.characterText}>Status: {item.status}</Text>
-      <Text style={styles.characterText}>Species: {item.species}</Text>
-      <Text style={styles.characterText}>Gender: {item.gender}</Text>
-      <Text style={styles.characterText}>Origin: {item.origin.name}</Text>
-      <Text style={styles.characterText}>Location: {item.location.name}</Text>
-    </TouchableOpacity>
-  );
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{episode.name}</Text>
       <Text style={styles.text}>Episode: {episode.episode}</Text>
       <Text style={styles.text}>Air Date: {episode.air_date}</Text>
       <Text style={styles.subtitle}>Characters:</Text>
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Search by character name"
-        value={searchQuery}
-        onChangeText={(text) => setSearchQuery(text)}
-      />
-      <FlatList
-        data={filteredCharacters}
-        keyExtractor={item => item.id.toString()}
-        renderItem={renderItem}
-        ListFooterComponent={loading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <CharacterList 
+        characters={filteredCharacters} 
+        loading={loading}
+        navigation={navigation}
       />
       <Pagination
         currentPage={currentPage}
@@ -126,44 +109,23 @@ const DetailScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: moderateScale(20),
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 24,
+    fontSize: scale(24),
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: moderateScale(16),
   },
   text: {
-    fontSize: 18,
-    marginBottom: 8,
+    fontSize: scale(18),
+    marginBottom: moderateScale(8),
   },
   subtitle: {
-    fontSize: 20,
+    fontSize: scale(20),
     fontWeight: 'bold',
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  searchBar: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    marginBottom: 16,
-  },
-  characterItem: {
-    marginBottom: 16,
-    padding: 10,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 5,
-  },
-  characterName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  characterText: {
-    fontSize: 16,
+    marginTop: moderateScale(16),
+    marginBottom: moderateScale(8),
   },
 });
 

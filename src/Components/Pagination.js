@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
@@ -28,25 +29,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 25,
+    padding: moderateScale(25),
   },
   button: {
-    padding: 10,
+    padding: moderateScale(10),
     backgroundColor: '#007bff',
-    borderRadius: 5,
+    borderRadius: scale(5),
     flex: 1,
     alignItems: 'center',
-    marginHorizontal: 5,
+    marginHorizontal: scale(5),
   },
   disabledButton: {
     backgroundColor: '#d3d3d3',
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: scale(16),
   },
   pageInfo: {
-    fontSize: 18,
+    fontSize: scale(18),
   },
 });
 

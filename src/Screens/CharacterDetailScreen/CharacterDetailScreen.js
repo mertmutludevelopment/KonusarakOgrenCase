@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCharacterById } from '../Services/api';
-import { addFavorite, removeFavorite } from '../store/favoritesSlice';
+import { fetchCharacterById } from '../../Services/api/characterApi';
+import { addFavorite, removeFavorite } from '../../store/favoritesSlice';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 const CharacterDetailScreen = ({ route }) => {
   const { characterId } = route.params;
@@ -77,37 +78,37 @@ const CharacterDetailScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: moderateScale(20),
     backgroundColor: '#fff',
     alignItems: 'center',
   },
   image: {
     width: '100%',
-    height: 200,
-    borderRadius: 10,
+    height: verticalScale(200),
+    borderRadius: scale(10),
   },
   name: {
-    fontSize: 24,
+    fontSize: scale(24),
     fontWeight: 'bold',
-    marginVertical: 10,
+    marginVertical: moderateScale(10),
     textAlign: 'center',
   },
   detail: {
-    fontSize: 18,
-    marginVertical: 5,
+    fontSize: scale(18),
+    marginVertical: moderateScale(5),
     textAlign: 'center',
   },
   favoriteButton: {
-    marginTop: 20,
+    marginTop: moderateScale(20),
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    padding: moderateScale(10),
     backgroundColor: '#fff',
-    borderRadius: 50,
+    borderRadius: scale(50),
     elevation: 5,
   },
   icon: {
-    padding: 5,
+    padding: moderateScale(5),
   },
 });
 
