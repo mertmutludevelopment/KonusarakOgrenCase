@@ -1,25 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchCharacterById } from '../Services/api';
+import { addFavorite, removeFavorite } from '../store/favoritesSlice';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const CharacterDetailScreen = ({ route }) => {
   const { characterId } = route.params;
   const [character, setCharacter] = useState(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const favorites = useSelector(state => state.favorites.favorites);
 
   useEffect(() => {
-    const loadCharacterData = async () => {
+    const loadCharacter = async () => {
       try {
         const data = await fetchCharacterById(characterId);
         setCharacter(data);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching character details:', error);
+        setLoading(false);
       }
     };
 
-    loadCharacterData();
+    loadCharacter();
   }, [characterId]);
+
+  const isFavorite = favorites.some(fav => fav.id === characterId);
+
+  const handleFavoriteToggle = () => {
+    if (isFavorite) {
+      dispatch(removeFavorite(characterId));
+    } else {
+      dispatch(addFavorite(character));
+    }
+  };
 
   if (loading) {
     return (
@@ -32,7 +48,7 @@ const CharacterDetailScreen = ({ route }) => {
   if (!character) {
     return (
       <View style={styles.container}>
-        <Text>Character details not found.</Text>
+        <Text>Character not found.</Text>
       </View>
     );
   }
@@ -40,12 +56,20 @@ const CharacterDetailScreen = ({ route }) => {
   return (
     <View style={styles.container}>
       <Image source={{ uri: character.image }} style={styles.image} />
-      <Text style={styles.title}>{character.name}</Text>
-      <Text style={styles.text}>Status: {character.status}</Text>
-      <Text style={styles.text}>Species: {character.species}</Text>
-      <Text style={styles.text}>Gender: {character.gender}</Text>
-      <Text style={styles.text}>Origin: {character.origin.name}</Text>
-      <Text style={styles.text}>Location: {character.location.name}</Text>
+      <Text style={styles.name}>{character.name}</Text>
+      <Text style={styles.detail}>Status: {character.status}</Text>
+      <Text style={styles.detail}>Species: {character.species}</Text>
+      <Text style={styles.detail}>Gender: {character.gender}</Text>
+      <Text style={styles.detail}>Origin: {character.origin.name}</Text>
+      <Text style={styles.detail}>Location: {character.location.name}</Text>
+      <TouchableOpacity onPress={handleFavoriteToggle} style={styles.favoriteButton}>
+        <Icon
+          name={isFavorite ? "heart" : "heart-outline"}
+          size={30}
+          color="#ff0000"
+          style={styles.icon}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -53,25 +77,37 @@ const CharacterDetailScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 20,
     backgroundColor: '#fff',
+    alignItems: 'center',
   },
   image: {
-    width: 200,
+    width: '100%',
     height: 200,
-    borderRadius: 100,
-    marginBottom: 16,
+    borderRadius: 10,
   },
-  title: {
+  name: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginVertical: 10,
+    textAlign: 'center',
   },
-  text: {
+  detail: {
     fontSize: 18,
-    marginBottom: 8,
+    marginVertical: 5,
+    textAlign: 'center',
+  },
+  favoriteButton: {
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 50,
+    elevation: 5,
+  },
+  icon: {
+    padding: 5,
   },
 });
 

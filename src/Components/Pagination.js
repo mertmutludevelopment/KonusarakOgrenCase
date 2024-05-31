@@ -28,18 +28,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
+    padding: 25,
   },
   button: {
     padding: 10,
     backgroundColor: '#007bff',
     borderRadius: 5,
+    flex: 1,
+    alignItems: 'center',
+    marginHorizontal: 5,
   },
   disabledButton: {
     backgroundColor: '#d3d3d3',
   },
   buttonText: {
     color: '#fff',
+    fontSize: 16,
   },
   pageInfo: {
     fontSize: 18,

@@ -1,22 +1,28 @@
-import 'react-native-gesture-handler';
+// App.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Provider } from 'react-redux';
+import store from './store'; // store'u oluşturduğunuz dosyanın yolu
 import HomeScreen from './Screens/HomeScreen';
 import DetailScreen from './Screens/DetailScreen';
-import CharacterDetailScreen from './Screens/CharacterDetailScreen'; // Yeni ekranı içe aktarın
+import CharacterDetailScreen from './Screens/CharacterDetailScreen';
+import FavoriteCharactersScreen from './Screens/FavoriteCharactersScreen';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailScreen} />
-        <Stack.Screen name="CharacterDetails" component={CharacterDetailScreen} /> 
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Details" component={DetailScreen} />
+          <Stack.Screen name="CharacterDetails" component={CharacterDetailScreen} />
+          <Stack.Screen name="FavoriteCharacters" component={FavoriteCharactersScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 

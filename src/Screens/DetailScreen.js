@@ -1,3 +1,4 @@
+// src/Screens/DetailScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { fetchEpisodeById, fetchCharacterById } from '../Services/api';

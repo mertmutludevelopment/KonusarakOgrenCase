@@ -62,18 +62,26 @@ const HomeScreen = ({ navigation }) => {
         value={searchQuery}
         onChangeText={(text) => setSearchQuery(text)}
       />
+      <TouchableOpacity
+        style={styles.favoriteButton}
+        onPress={() => navigation.navigate('FavoriteCharacters')}
+      >
+        <Text style={styles.favoriteButtonText}>View Favorite Characters</Text>
+      </TouchableOpacity>
       <FlatList
         data={filteredEpisodes}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.episodeContainer}
-            onPress={() => navigation.navigate('Details', { episodeId: item.id })}
-          >
-            <Text style={styles.episodeTitle}>{item.name}</Text>
-            <Text style={styles.episodeText}>Episode: {item.episode}</Text>
-            <Text style={styles.episodeText}>Air Date: {item.air_date}</Text>
-          </TouchableOpacity>
+          <View style={styles.episodeContainer}>
+            <TouchableOpacity
+              style={styles.episodeContent}
+              onPress={() => navigation.navigate('Details', { episodeId: item.id })}
+            >
+              <Text style={styles.episodeTitle}>{item.name}</Text>
+              <Text style={styles.episodeText}>Episode: {item.episode}</Text>
+              <Text style={styles.episodeText}>Air Date: {item.air_date}</Text>
+            </TouchableOpacity>
+          </View>
         )}
       />
       <Pagination
@@ -99,13 +107,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     marginBottom: 16,
   },
+  favoriteButton: {
+    backgroundColor: '#007bff',
+    paddingVertical: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  favoriteButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   episodeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     backgroundColor: '#f9f9f9',
     borderRadius: 8,
     marginVertical: 8,
+  },
+  episodeContent: {
+    flex: 1,
+    marginRight: 8,
   },
   episodeTitle: {
     fontSize: 18,
